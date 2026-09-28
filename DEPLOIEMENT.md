@@ -22,8 +22,8 @@ Le dépôt Git local est déjà initialisé (branche `main`, premier commit fait
    - **Build command** : `npm run build`
    - **Build output directory** : `dist`
    - **Root directory** : laisse vide
-   - **Environment variable** (facultatif à ce stade) : `SITE_URL` = `https://autobac66.fr`
-5. **Save and Deploy** → le site est en ligne en ~1 minute sur `https://autobac66.pages.dev`.
+   - **Environment variable** : rien à définir — le domaine `https://pneus-occasion-perpignan.fr` est déjà la valeur par défaut du build
+5. **Save and Deploy** → le site est en ligne en ~1 minute sur `https://autobac66.pages.dev` (URL de préversion), en attendant le domaine définitif.
 
 Ensuite, chaque `git push` redéploie automatiquement le site.
 
@@ -78,28 +78,31 @@ Tu peux aussi brancher un dépôt Git sur **Workers Builds** (build : `npm run b
 
 ---
 
-## Brancher le domaine définitif (ex. `autobac66.fr`)
+## Brancher le domaine `pneus-occasion-perpignan.fr`
 
-1. Achète le domaine (Cloudflare Registrar, OVH, Gandi…).
-2. S'il n'est pas déjà dans ton compte Cloudflare : **Add a site**, puis remplace les serveurs DNS chez le registrar par les deux serveurs indiqués par Cloudflare.
-3. Pages → ton projet → **Custom domains → Set up a custom domain** → saisis `autobac66.fr` (et `www.autobac66.fr` si tu veux les deux). Cloudflare crée l'enregistrement DNS et le certificat SSL automatiquement.
-4. Mets la variable `SITE_URL = https://autobac66.fr` (projet Pages → **Settings → Environment variables → Production**), puis **Retry deployment**. Le canonical, `robots.txt`, `sitemap.xml` et le JSON-LD basculent automatiquement sur le domaine définitif.
-5. Facultatif : **SSL/TLS → Edge Certificates → HSTS** (activer) et une **Redirect Rule** pour envoyer `www` vers l'apex (ou l'inverse).
+1. Achète le domaine chez un registrar : OVH, Gandi, Ionos… (ou Cloudflare Registrar s'il propose le `.fr`). Un `.fr` coûte environ 8 à 12 € par an.
+2. **Si le domaine n'est pas encore dans ton compte Cloudflare** : tableau de bord → **Add a site** → saisis `pneus-occasion-perpignan.fr` → choisis le plan **Free**. Cloudflare te donne 2 serveurs DNS (ex. `xxx.ns.cloudflare.com`) : remplace les serveurs DNS actuels chez ton registrar par ceux-là. Aucun transfert de domaine n'est nécessaire, seulement le changement de DNS (comptez de quelques minutes à 24 h de propagation).
+3. Pages → ton projet → **Custom domains → Set up a custom domain** → saisis `pneus-occasion-perpignan.fr`, puis recommence pour `www.pneus-occasion-perpignan.fr`. Cloudflare crée les enregistrements DNS et le certificat SSL automatiquement.
+4. **Rien d'autre à configurer côté code** : le canonical, `og:url`, `robots.txt`, `sitemap.xml` et le JSON-LD utilisent déjà `https://pneus-occasion-perpignan.fr` (valeur par défaut dans `astro.config.mjs`). La variable `SITE_URL` ne sert que si tu construis volontairement avec une autre URL.
+5. Facultatif mais recommandé : **Rules → Redirect Rules** pour rediriger `www.pneus-occasion-perpignan.fr/*` vers `https://pneus-occasion-perpignan.fr/$1` (le site déclare l'apex comme adresse canonique), et **SSL/TLS → Edge Certificates → HSTS** activé (avec `max-age`, sans `includeSubDomains` au début).
 
-Test en local avec le domaine final :
+Test en local avec une autre URL (par exemple l'URL `.pages.dev`) :
 
 ```powershell
-$env:SITE_URL="https://autobac66.fr"; npm run build; npm run preview
+$env:SITE_URL="https://autobac66.pages.dev"; npm run build; npm run preview
 ```
 
 ---
 
 ## Checklist après la mise en ligne
 
-- [ ] `https://<domaine>/` : page complète (photos, avis, formulaire) et rapide
-- [ ] `https://<domaine>/robots.txt` → contient `Sitemap: https://<domaine>/sitemap.xml`
-- [ ] `https://<domaine>/sitemap.xml` → `<loc>https://<domaine>/</loc>`
-- [ ] `https://<domaine>/page-inexistante` → page 404 « Cette page a pris une crevaison »
+- [ ] `https://pneus-occasion-perpignan.fr/` : page complète (photos, avis, formulaire) et rapide
+- [ ] `https://pneus-occasion-perpignan.fr/robots.txt` → contient `Sitemap: https://pneus-occasion-perpignan.fr/sitemap.xml`
+- [ ] `https://pneus-occasion-perpignan.fr/sitemap.xml` → `<loc>https://pneus-occasion-perpignan.fr/</loc>`
+- [ ] Page en ligne → « Afficher le code source » → `<link rel="canonical" href="https://pneus-occasion-perpignan.fr/">` (et non `.pages.dev`)
+- [ ] `https://pneus-occasion-perpignan.fr/page-inexistante` → page 404 « Cette page a pris une crevaison »
+- [ ] `https://pneus-occasion-perpignan.fr/thanks` → accessible mais bien en `noindex` (`<meta name="robots" content="noindex">`)
+- [ ] `www.pneus-occasion-perpignan.fr` redirige bien vers l'apex (redirect rule) et le cadenas SSL s'affiche
 - [ ] **Formulaire** : envoie une vraie demande de test (tu la recevras) — le récapitulatif s'affiche dans la page, l'email arrive via Formspree. Vérifie aussi l'adresse de réception dans ton compte Formspree (`formspree.io/f/mqpagwbn`).
 - [ ] **Google Search Console** : ajoute la propriété (type « Préfixe d'URL »), valide, puis soumets `sitemap.xml`
 - [ ] **Mesure d'audience** : Cloudflare Web Analytics (gratuit, sans cookie, aucun bandeau de consentement à ajouter) est plus simple que GA4, qui impose un bandeau cookies conforme CNIL/RGPD.
@@ -123,7 +126,7 @@ $env:SITE_URL="https://autobac66.fr"; npm run build; npm run preview
 
 | Fichier | Rôle |
 | --- | --- |
-| `astro.config.mjs` | `site` = variable `SITE_URL` (défaut `https://autobac66.pages.dev`) |
+| `astro.config.mjs` | `site` = variable `SITE_URL` (défaut : `https://pneus-occasion-perpignan.fr`) |
 | `public/_headers` | Cache long (1 an) sur `/_astro/*` et `/fonts/*` + en-têtes de sécurité |
 | `.node-version` | Node 22 (l'image de build Cloudflare utilise Node 22.16 par défaut) |
 | `package.json` | Script `npm run deploy` (build + upload Wrangler) |

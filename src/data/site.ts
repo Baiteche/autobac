@@ -27,7 +27,8 @@ const site = {
   displayName: 'AutoBac66',
   city: 'Perpignan',
   department: 'Pyrénées-Orientales / 66',
-  url: '[URL DU SITE]',
+  // L'URL publique du site est définie dans astro.config.mjs (SITE_URL) :
+  // https://pneus-occasion-perpignan.fr
   address: {
     street: '44 boulevard Frédéric Mistral',
     postalCode: '66000',

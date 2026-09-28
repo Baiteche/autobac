@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 // Généré au build : suit automatiquement l'URL définie dans astro.config.mjs (SITE_URL).
 export const GET: APIRoute = ({ site }) => {
-  const base = site ?? new URL('https://autobac66.pages.dev');
+  const base = site ?? new URL('https://pneus-occasion-perpignan.fr');
   const body = [
     'User-agent: *',
     'Allow: /',
