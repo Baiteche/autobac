@@ -1,6 +1,6 @@
 # Déployer AutoBac66 sur Cloudflare
 
-Le site est **100 % statique** : `npm run build` génère le dossier `dist` (3 pages — accueil, confirmation `/thanks`, 404 — 71 fichiers, 3,5 Mo, plus gros fichier 363 kB). Aucun serveur, aucune base de données à gérer.
+Le site est **100 % statique** : `npm run build` génère le dossier `dist` (3 pages — accueil, confirmation `/thanks`, 404 — 72 fichiers, 3,5 Mo, plus gros fichier 363 kB). Aucun serveur, aucune base de données à gérer.
 
 ---
 

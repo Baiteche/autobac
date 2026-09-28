@@ -70,7 +70,10 @@ const site = {
       'pneus occasion 66',
       'garage pneus Perpignan'
     ],
-    ogImage: '/og-autobac66.svg'
+    // Image de partage social au format PNG (1200x630) : les réseaux (Facebook,
+    // WhatsApp, LinkedIn, X) n'affichent pas les SVG. Générée depuis public/og-autobac66.svg
+    // avec sharp (sharp(svg).resize(1200, 630).png()) — remplacer le PNG en cas de refonte.
+    ogImage: '/og-autobac66.png'
   },
   images: {
     hero: {
