@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import site from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+const mapTarget = site.address.mapsUrl.startsWith('http') ? site.address.mapsUrl : '#contact';
+const hoursSentence = `${site.contact.hoursLong.charAt(0).toUpperCase()}${site.contact.hoursLong.slice(1)}`;
+---
+
+<Layout
+  title={`Demande reçue | ${site.displayName} Perpignan`}
+  description={`Votre demande de pneus est arrivée à l’atelier AutoBac66, ${site.address.street} à ${site.address.city}. Réponse au ${site.contact.phoneDisplay}.`}
+  noindex
+>
+  <Header />
+  <main id="main-content">
+    <section class="thanks-section">
+      <div class="container thanks-layout">
+        <p class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Demande transmise</p>
+        <h1>Merci, nous vérifions <em>votre dimension.</em></h1>
+        <p>Votre demande est arrivée à l’atelier AutoBac66, {site.address.street} à {site.address.city}. Nous vérifions le stock correspondant et nous vous répondons sur le numéro que vous avez indiqué.</p>
+        <div class="thanks-actions">
+          <a class="button button-primary" href={phoneTarget}><span>Appeler le {site.contact.phoneDisplay}</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+          <a class="button button-outline-light" href={mapTarget} target="_blank" rel="noreferrer"><span>Voir l’itinéraire</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+          <a class="button button-ghost" href="/"><span>Retour à l’accueil</span><span class="button-arrow" aria-hidden="true">←</span></a>
+        </div>
+        <p class="thanks-note">{hoursSentence} · {site.contact.walkIn} · <a href={phoneTarget}>{site.contact.phoneDisplay}</a></p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

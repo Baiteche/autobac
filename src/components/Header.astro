@@ -1,0 +1,63 @@
+---
+import site from '../data/site';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="Retour en haut — AutoBac66">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-copy"><strong>{site.name}</strong><small>PERPIGNAN / 66</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Navigation principale" data-nav>
+      <a href="#offre">L’offre</a>
+      <a href="#services">Services</a>
+      <a href="#atelier">Atelier</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="header-call" href={phoneTarget} aria-label={`Appeler AutoBac66 au ${site.contact.phoneDisplay}`}>
+      <span class="call-icon" aria-hidden="true">☎</span>
+      <span>{site.contact.phoneDisplay}</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+      <span class="sr-only">Ouvrir le menu</span>
+      <span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav>
+    <div class="container mobile-nav-inner">
+      <a href="#offre">L’offre</a>
+      <a href="#services">Services</a>
+      <a href="#atelier">Atelier</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.querySelector('[data-menu-toggle]');
+  const mobileNav = document.querySelector('[data-mobile-nav]');
+  const header = document.querySelector('[data-header]');
+
+  menuToggle?.addEventListener('click', () => {
+    const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    mobileNav?.classList.toggle('is-open', !isOpen);
+    document.body.classList.toggle('menu-open', !isOpen);
+  });
+
+  mobileNav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      mobileNav.classList.remove('is-open');
+      document.body.classList.remove('menu-open');
+    });
+  });
+
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>

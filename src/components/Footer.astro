@@ -1,0 +1,10 @@
+---
+import site from '../data/site';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+---
+
+<footer class="site-footer">
+  <div class="container footer-main"><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span></span><span class="brand-copy"><strong>{site.name}</strong><small>PERPIGNAN / 66</small></span></a><p>Le bon pneu, le bon conseil,<br />le bon point de départ.</p><a class="footer-top" href="#top">Retour en haut <span aria-hidden="true">↑</span></a></div>
+  <div class="container footer-bottom"><span>© {new Date().getFullYear()} {site.displayName}</span><span>{site.address.short}</span><span class="footer-contact"><a href={phoneTarget}>{site.contact.phoneDisplay}</a> · {site.contact.hours}</span></div>
+</footer>

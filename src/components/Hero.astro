@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import site from '../data/site';
+import heroPhoto from '../assets/images/hero-atelier-pneu.jpg';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+const mapTarget = site.address.mapsUrl;
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero-noise" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="container hero-layout">
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow"><span class="eyebrow-dot"></span> Garage pneus · {site.city}</p>
+      <h1 id="hero-title">Pneus d’occasion à <em>Perpignan</em><span class="h1-subline">Vente, montage &amp; équilibrage</span></h1>
+      <p class="hero-intro">Vous cherchez des pneus d’occasion à Perpignan ? Donnez-nous votre dimension : nous vous orientons vers la bonne solution, au bon prix.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={phoneTarget}>
+          <span>Appeler maintenant</span><span class="button-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="button button-ghost" href="#devis">Demander un devis <span aria-hidden="true">↓</span></a>
+      </div>
+      <a class="hero-phone" href={phoneTarget} aria-label={`Appeler AutoBac66 au ${site.contact.phoneDisplay}`}>
+        <span class="hero-phone-icon" aria-hidden="true">☎</span>
+        <span class="hero-phone-copy"><strong>{site.contact.phoneDisplay}</strong><small>Appel direct à l’atelier · {site.contact.walkIn}</small></span>
+        <span class="button-arrow" aria-hidden="true">↗</span>
+      </a>
+      <div class="trust-row" aria-label="Informations de confiance">
+        <span class="trust-chip"><i aria-hidden="true"></i> {site.contact.walkIn}</span>
+        <span class="trust-chip"><i aria-hidden="true"></i> {site.contact.hours}</span>
+        <span class="trust-chip"><i aria-hidden="true"></i> Neuf &amp; occasion</span>
+        <span class="trust-chip"><i aria-hidden="true"></i> Montage sur place</span>
+      </div>
+      <div class="hero-offer">
+        <span class="hero-offer-label">{site.promotion.label}</span>
+        <div><strong>{site.promotion.title}</strong><span>{site.promotion.detail} <b>{site.promotion.price}</b> <del>au lieu de {site.promotion.oldPrice}</del></span><small class="hero-offer-note">{site.promotion.conditions}</small></div>
+        <a href="#devis">En profiter <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <figure class="hero-photo">
+        <div class="hero-photo-frame">
+          <Image src={heroPhoto} alt={site.images.hero.alt} widths={[600, 900, 1400]} sizes="(max-width: 720px) 79vw, 46vw" format="webp" quality={70} loading="eager" fetchpriority="high" decoding="async" />
+          <span class="hero-photo-wash" aria-hidden="true"></span>
+          <span class="hero-photo-corner" aria-hidden="true"></span>
+        </div>
+      </figure>
+      <div class="hero-photo-stamp" aria-hidden="true"><span>66</span><small>GARAGE<br />PNEUS</small></div>
+      <div class="hero-photo-index" aria-hidden="true">AUTO / 01</div>
+    </div>
+  </div>
+  <div class="container hero-location-row">
+    <div class="hero-location"><span class="pin" aria-hidden="true">+</span><span><strong>{site.address.street}</strong><br />{site.city}</span></div>
+    <a class="hero-route-link" href={mapTarget} target="_blank" rel="noreferrer">Voir l’itinéraire <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="container hero-footer">
+    <div class="scroll-cue"><span>Faire défiler</span><span class="scroll-line" aria-hidden="true"></span></div>
+    <div class="hero-index">01 <span>/</span> 06</div>
+  </div>
+</section>

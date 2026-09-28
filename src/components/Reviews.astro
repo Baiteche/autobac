@@ -1,0 +1,32 @@
+---
+import site from '../data/site';
+---
+
+<section class="reviews-section section-light" id="avis" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="section-heading split-heading reviews-heading">
+      <div><p class="eyebrow"><span class="eyebrow-dot"></span> Paroles de clients</p><h2 id="reviews-title">À vous de<br /><em>nous le dire.</em></h2></div>
+      <p>Ce que retiennent les automobilistes du secteur : un conseil direct, un devis annoncé avant les travaux et un montage réalisé sur place.</p>
+    </div>
+    <div class="reviews-grid">
+      {site.reviews.map((review) => (
+        <article class="review-card">
+          <div class="review-meta">
+            <span class="review-avatar" aria-hidden="true">{review.name.charAt(0)}</span>
+            <span>{review.name}</span>
+            <span class="review-date">{review.city}</span>
+          </div>
+          <p class="review-stars">
+            <span class="sr-only">Note : {review.rating} sur 5</span>
+            <span aria-hidden="true">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
+          </p>
+          <p>“{review.text}”</p>
+        </article>
+      ))}
+    </div>
+    <p class="reviews-note">
+      <span aria-hidden="true">↳</span> Témoignages provisoires : les avis publiés en ligne par les clients de l’atelier viendront les remplacer dès leur mise à disposition.
+    </p>
+  </div>
+</section>
+

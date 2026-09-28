@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import site from '../data/site';
+import mecaniqueSousVehicule from '../assets/images/mecanique-sous-vehicule.jpg';
+---
+
+<section class="benefits-section section-paper" id="offre" aria-labelledby="benefits-title">
+  <div class="container benefits-layout">
+    <div class="benefits-art">
+      <div class="benefits-circle" aria-hidden="true"><span>66</span><i></i></div>
+      <div class="benefits-stamp" aria-hidden="true">PERPIGNAN<br /><b>ORIENTÉ<br />PNEUS</b></div>
+      <span class="benefits-cross cross-one" aria-hidden="true">+</span><span class="benefits-cross cross-two" aria-hidden="true">+</span>
+      <figure class="benefits-photo">
+        <Image src={mecaniqueSousVehicule} alt="Mécanicien en combinaison bleue intervenant sous un véhicule surélevé sur un pont élévateur" widths={[320, 520, 780]} sizes="(max-width: 1040px) 62vw, 26vw" format="webp" quality={68} loading="lazy" decoding="async" />
+        <figcaption aria-hidden="true">Atelier · sous le véhicule</figcaption>
+      </figure>
+    </div>
+    <div class="benefits-content">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> Pourquoi AutoBac66 ?</p>
+      <h2 id="benefits-title">Le prix compte.<br /><em>La façon aussi.</em></h2>
+      <p class="benefits-lead">Une expérience pensée pour aller droit au but, avec les informations disponibles et les points à confirmer clairement séparés.</p>
+      <div class="benefits-list">
+        {site.benefits.map((benefit) => (
+          <div class="benefit-row"><span class="benefit-number">{benefit.number}</span><div><h3>{benefit.title}</h3><p>{benefit.text}</p></div></div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

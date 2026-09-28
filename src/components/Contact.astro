@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import site from '../data/site';
+import atelierPhoto from '../assets/images/atelier-baie-service.jpg';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+const mapTarget = site.address.mapsUrl.startsWith('http') ? site.address.mapsUrl : '#contact';
+---
+
+<section class="contact-section" id="contact" aria-labelledby="contact-title">
+  <div class="contact-glow" aria-hidden="true"></div>
+  <div class="container contact-layout">
+    <div class="contact-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Le point de rendez-vous</p><h2 id="contact-title">On en parle<br /><em>au garage ?</em></h2><p>Une dimension, une question, un besoin de montage : l’atelier vous accueille {site.contact.walkIn.toLowerCase()}, {site.contact.hoursLong}. Transmettez-nous les informations dont vous disposez et nous vous orienterons sur la bonne solution.</p><div class="contact-actions"><a class="button button-primary" href={phoneTarget}><span>Appeler le {site.contact.phoneDisplay}</span><span class="button-arrow" aria-hidden="true">↗</span></a><a class="button button-outline-light" href={mapTarget} target="_blank" rel="noreferrer"><span>Venir au garage</span><span class="button-arrow" aria-hidden="true">↗</span></a></div></div>
+    <address class="contact-card">
+      <div class="contact-card-head"><span class="contact-card-label">AUTOBAC66 / LOCAL</span><span class="contact-card-mark" aria-hidden="true">↗</span></div>
+      <div class="contact-photo">
+        <Image src={atelierPhoto} alt="Véhicule surélevé sur pont élévateur dans l’atelier équipé pour le montage des pneus" widths={[420, 720, 960]} sizes="(max-width: 1040px) 92vw, 30vw" format="webp" quality={70} loading="lazy" decoding="async" />
+        <span class="contact-photo-tag" aria-hidden="true">Atelier · montage &amp; équilibrage</span>
+      </div>
+      <div class="contact-address"><span class="contact-pin" aria-hidden="true">+</span><p><strong>{site.address.street}</strong><br />{site.address.city}<br />{site.department}</p></div>
+      <div class="contact-details"><div><span>Téléphone</span><strong><a href={phoneTarget}>{site.contact.phoneDisplay}</a></strong></div><div><span>Horaires</span><strong>{site.contact.hours}</strong></div><div><span>Accueil</span><strong>{site.contact.walkIn}</strong></div></div>
+      <div class="coverage"><span>Zone</span><p>{site.coverage.join(' · ')}</p></div>
+      <a class="map-link" href={mapTarget} target="_blank" rel="noreferrer" aria-label="Voir l’itinéraire dans Google Maps">Voir l’itinéraire <span aria-hidden="true">↗</span></a>
+    </address>
+  </div>
+</section>

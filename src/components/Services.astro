@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import site from '../data/site';
+import stockPneusEmpiles from '../assets/images/stock-pneus-empiles.jpg';
+import pneuJanteNeuve from '../assets/images/pneu-jante-neuve.jpg';
+import montageCleChoc from '../assets/images/montage-cle-choc.jpg';
+import atelierLampeInspection from '../assets/images/atelier-lampe-inspection.jpg';
+import atelierControlePont from '../assets/images/atelier-controle-pont.jpg';
+
+// Photos d’illustration (Pexels) : à remplacer par les clichés de l’atelier dès que possible.
+const servicePhotos: Record<string, { image: ImageMetadata; alt: string }> = {
+  occasion: { image: stockPneusEmpiles, alt: 'Pneus vus de près, empilés les uns contre les autres dans le stock' },
+  neufs: { image: pneuJanteNeuve, alt: 'Pneu neuf monté sur sa jante, vu de près' },
+  montage: { image: montageCleChoc, alt: 'Clé à choc utilisée sur une roue pendant le montage d’un pneu' },
+  crevaison: { image: atelierLampeInspection, alt: 'Lampe d’inspection éclairant le dessous d’un véhicule surélevé' },
+  mecanique: { image: atelierControlePont, alt: 'Mécanicien en combinaison bleue intervenant sous un véhicule sur pont élévateur' }
+};
+---
+
+<section class="services-section section-light" id="services" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-heading split-heading">
+      <div><p class="eyebrow"><span class="eyebrow-dot"></span> L’offre AutoBac66</p><h2 id="services-title">Le pneu est<br /><em>le point de départ.</em></h2></div>
+      <p>Une offre lisible pour vous aider à avancer : trouver la bonne dimension, choisir entre neuf et occasion, puis confier le montage à l’atelier.</p>
+    </div>
+    <div class="service-grid">
+      {site.services.map((service, index) => (
+        <article class={`service-card tone-${service.tone} reveal-card`} style={`--card-index: ${index}`}>
+          <div class="service-card-top"><span class="service-label">{service.label}</span><span class="service-arrow" aria-hidden="true">↗</span></div>
+          <div class="service-card-icon" aria-hidden="true">
+            {service.id === 'occasion' && <span class="icon-ring icon-ring-double"></span>}
+            {service.id === 'neufs' && <span class="icon-spark">✳</span>}
+            {service.id === 'montage' && <span class="icon-cross">＋</span>}
+            {service.id === 'crevaison' && <span class="icon-puncture">•</span>}
+            {service.id === 'mecanique' && <span class="icon-slash">↗</span>}
+          </div>
+          <h3>{service.title}</h3>
+          <p class="service-short">{service.short}</p>
+          <p class="service-description">{service.description}</p>
+          <ul>{service.bullets.map((bullet) => <li><span aria-hidden="true">+</span>{bullet}</li>)}</ul>
+          {servicePhotos[service.id] && (
+            <figure class="service-photo">
+              <Image
+                src={servicePhotos[service.id].image}
+                alt={servicePhotos[service.id].alt}
+                widths={[340, 520, 760]}
+                sizes="(max-width: 720px) 92vw, (max-width: 1040px) 46vw, 30vw"
+                format="webp"
+                quality={68}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

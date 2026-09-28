@@ -1,0 +1,19 @@
+{
+  "name": "autobac66",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "astro build && npx --yes wrangler@latest pages deploy dist --project-name=autobac66"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "astro": "^5.13.0",
+    "gsap": "^3.13.0"
+  }
+}

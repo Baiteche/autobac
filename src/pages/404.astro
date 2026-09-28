@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import site from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+const mapTarget = site.address.mapsUrl.startsWith('http') ? site.address.mapsUrl : '#contact';
+---
+
+<Layout
+  title={`Page introuvable | ${site.displayName} Perpignan`}
+  description={`Cette page n’existe pas ou a été déplacée. Retrouvez l’atelier pneus AutoBac66, ${site.address.full}, ou appelez le ${site.contact.phoneDisplay}.`}
+  noindex
+>
+  <Header />
+  <main id="main-content">
+    <section class="thanks-section">
+      <div class="container thanks-layout">
+        <p class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Erreur 404</p>
+        <h1>Cette page a pris <em>une crevaison.</em></h1>
+        <p>La page demandée n’existe pas ou a été déplacée. L’atelier, lui, reste bien ouvert : {site.address.full}.</p>
+        <div class="thanks-actions">
+          <a class="button button-primary" href="/"><span>Revenir à l’accueil</span><span class="button-arrow" aria-hidden="true">←</span></a>
+          <a class="button button-outline-light" href={phoneTarget}><span>Appeler le {site.contact.phoneDisplay}</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+          <a class="button button-ghost" href={mapTarget} target="_blank" rel="noreferrer"><span>Voir l’itinéraire</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <p class="thanks-note">{site.contact.hours} · {site.contact.walkIn} · {site.address.short}</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

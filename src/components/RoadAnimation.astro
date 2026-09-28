@@ -1,0 +1,146 @@
+---
+const roadSteps = [
+  { number: '01', kicker: 'Le choix', title: 'Pneus d’occasion', text: 'Une option économique, à explorer selon votre dimension.' },
+  { number: '02', kicker: 'La gamme', title: 'Pneus neufs', text: 'Des solutions à comparer selon votre conduite et votre budget.' },
+  { number: '03', kicker: 'L’atelier', title: 'Montage', text: 'Sur place, avec ou sans rendez-vous du lundi au samedi.' },
+  { number: '04', kicker: 'La précision', title: 'Équilibrage', text: 'Pour retrouver une sensation de conduite plus régulière.' },
+  { number: '05', kicker: 'Le garage', title: 'Mécanique légère', text: 'Interventions selon le véhicule : demandez à l’atelier.' }
+];
+---
+
+<section class="road-section" id="parcours" aria-labelledby="road-title">
+  <div class="road-sticky">
+    <div class="road-backdrop" aria-hidden="true"></div>
+    <div class="container road-heading">
+      <div>
+        <p class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> La route AutoBac66</p>
+        <h2 id="road-title">Un pneu.<br /><em>Un parcours.</em></h2>
+      </div>
+      <p class="road-intro">Faites défiler pour traverser les étapes qui comptent, de la recherche de la bonne dimension jusqu’au passage à l’atelier.</p>
+    </div>
+    <div class="road-stage" aria-hidden="true">
+      <svg class="road-svg" viewBox="0 0 1440 520" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="road-fill" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#2d3333" />
+            <stop offset="1" stop-color="#171b1d" />
+          </linearGradient>
+          <linearGradient id="road-line" x1="0" x2="1">
+            <stop offset="0" stop-color="#d5ff3f" stop-opacity="0" />
+            <stop offset=".2" stop-color="#d5ff3f" />
+            <stop offset=".8" stop-color="#d5ff3f" />
+            <stop offset="1" stop-color="#d5ff3f" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path class="road-ribbon" d="M-80 420 C220 210 340 470 620 250S1030 90 1530 330V610H-80Z" fill="url(#road-fill)" />
+        <path class="road-edge edge-one" d="M-80 420 C220 210 340 470 620 250S1030 90 1530 330" fill="none" stroke="#5e6865" stroke-width="3" />
+        <path class="road-edge edge-two" d="M-80 447 C220 237 340 497 620 277S1030 117 1530 357" fill="none" stroke="#111516" stroke-width="3" />
+        <path class="road-centerline" data-road-path d="M-40 433 C220 224 340 484 620 264S1030 104 1490 344" fill="none" stroke="url(#road-line)" stroke-width="4" stroke-dasharray="32 24" />
+      </svg>
+      <div class="road-tire" data-road-tire>
+        <svg viewBox="0 0 220 220" aria-hidden="true">
+          <circle cx="110" cy="110" r="86" fill="#0b0d0e" stroke="#3c4441" stroke-width="5" />
+          <circle cx="110" cy="110" r="64" fill="none" stroke="#1d2322" stroke-width="18" stroke-dasharray="14 9" />
+          <circle cx="110" cy="110" r="42" fill="#d5ff3f" stroke="#eaf2ce" stroke-width="4" />
+          <path d="M110 76v68M76 110h68M86 86l48 48M134 86l-48 48" stroke="#131718" stroke-width="5" stroke-linecap="round" />
+          <circle cx="110" cy="110" r="11" fill="#101214" />
+        </svg>
+      </div>
+      <div class="road-shadow" data-road-shadow></div>
+      {roadSteps.map((step, index) => (
+        <div class={`road-marker marker-${index + 1}`} data-road-marker={index}>
+          <span class="marker-dot"></span><span>{step.number}</span>
+        </div>
+      ))}
+    </div>
+    <div class="container road-steps" aria-label="Étapes du parcours">
+      {roadSteps.map((step, index) => (
+        <article class={`road-step ${index === 0 ? 'is-active' : ''}`} data-road-step={index}>
+          <span class="road-step-number">{step.number}</span>
+          <div><p class="step-kicker">{step.kicker}</p><h3>{step.title}</h3><p>{step.text}</p></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.querySelector('.road-section');
+  const stage = document.querySelector<HTMLElement>('.road-stage');
+  const path = document.querySelector<SVGPathElement>('[data-road-path]');
+  const tire = document.querySelector('[data-road-tire]');
+  const shadow = document.querySelector('[data-road-shadow]');
+  const steps = gsap.utils.toArray<HTMLElement>('[data-road-step]');
+  const markers = gsap.utils.toArray<HTMLElement>('[data-road-marker]');
+
+  if (section && stage && path && tire) {
+    const media = gsap.matchMedia();
+    const ctx = gsap.context(() => {
+      media.add(
+        {
+          reduce: '(prefers-reduced-motion: reduce)',
+          desktop: '(min-width: 900px)',
+          mobile: '(max-width: 899px)'
+        },
+        (conditions) => {
+          const { reduce, desktop } = conditions.conditions as { reduce: boolean; desktop: boolean; mobile: boolean };
+          const pathLength = path.getTotalLength();
+          const viewBoxWidth = 1440;
+          const viewBoxHeight = 520;
+
+          const setWheelAt = (progress: number, spin = 0) => {
+            const distance = Math.max(0, Math.min(1, progress)) * pathLength;
+            const point = path.getPointAtLength(distance);
+            const nextPoint = path.getPointAtLength(Math.min(pathLength, distance + 2));
+            const x = (point.x / viewBoxWidth) * stage.clientWidth;
+            const y = (point.y / viewBoxHeight) * stage.clientHeight;
+            const direction = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+            const wheelDiameter = desktop ? 70 : 46;
+
+            gsap.set(tire, { x, y, xPercent: -50, yPercent: -50, rotation: direction + spin });
+            gsap.set(shadow, { x, y: y + wheelDiameter * 0.58, scaleX: 1 + Math.sin(progress * Math.PI) * 0.18 });
+          };
+
+          if (reduce) {
+            setWheelAt(0.08);
+            gsap.set(steps.slice(1), { opacity: 1, y: 0 });
+            return;
+          }
+
+          const trigger = ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: desktop ? '+=1800' : '+=1000',
+            pin: '.road-sticky',
+            scrub: 0.8,
+            anticipatePin: 1,
+            onUpdate: (self) => {
+              const progress = self.progress;
+              const eased = gsap.parseEase('power1.inOut')(progress);
+              setWheelAt(eased, eased * (desktop ? 1120 : 600));
+              steps.forEach((step, index) => {
+                const threshold = index / steps.length;
+                const active = progress >= threshold - 0.04;
+                step.classList.toggle('is-active', active && progress < (index + 1) / steps.length + 0.2);
+                gsap.set(markers[index], { opacity: active ? 1 : 0.35, scale: active ? 1 : 0.8 });
+              });
+            }
+          });
+          setWheelAt(0);
+          return () => trigger.kill();
+        }
+      );
+      window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+    }, section);
+
+    window.addEventListener('pagehide', () => {
+      ctx.revert();
+      media.revert();
+    }, { once: true });
+  }
+</script>

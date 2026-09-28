@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#101214"/>
+  <path d="M0 500 430 270 1200 80v550H0Z" fill="#171b1d"/>
+  <circle cx="940" cy="280" r="155" fill="none" stroke="#d5ff3f" stroke-width="34" opacity=".95"/>
+  <circle cx="940" cy="280" r="55" fill="none" stroke="#f4f1e8" stroke-width="12"/>
+  <text x="72" y="176" fill="#d5ff3f" font-family="Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="8">PERPIGNAN / 66</text>
+  <text x="72" y="280" fill="#f4f1e8" font-family="Arial, sans-serif" font-size="78" font-weight="900">AUTOBAC66</text>
+  <text x="76" y="344" fill="#c8ccc2" font-family="Arial, sans-serif" font-size="30">Pneus neufs • occasion • montage</text>
+</svg>

@@ -1,0 +1,47 @@
+---
+import site, { schemaData } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title = site.seo.title, description = site.seo.description, noindex = false } = Astro.props;
+// Canonical et image sociale dérivés de l'URL du site (astro.config.mjs → SITE_URL).
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const socialImage = new URL(site.seo.ogImage, Astro.site).href;
+const schema = { ...schemaData, url: canonical, image: socialImage };
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content={site.colors.dark} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={site.seo.keywords.join(', ')} />
+    <meta name="format-detection" content="telephone=no" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={site.displayName} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Aller au contenu</a>
+    <slot />
+  </body>
+</html>

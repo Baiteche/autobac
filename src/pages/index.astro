@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import site from '../data/site';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import TyreFinder from '../components/TyreFinder.astro';
+import RoadAnimation from '../components/RoadAnimation.astro';
+import Services from '../components/Services.astro';
+import Gallery from '../components/Gallery.astro';
+import Benefits from '../components/Benefits.astro';
+import Reviews from '../components/Reviews.astro';
+import FAQ from '../components/FAQ.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const phoneTarget = site.contact.phoneHref || '#contact';
+---
+
+<Layout>
+  <Header />
+  <main id="main-content">
+    <Hero />
+    <TyreFinder />
+    <RoadAnimation />
+    <Services />
+    <Gallery />
+    <Benefits />
+    {/* Avis provisoires : remplacer site.reviews par les vrais avis dès réception (src/data/site.ts). */}
+    <Reviews />
+    <FAQ />
+    <Contact />
+  </main>
+  <Footer />
+  <a class="mobile-sticky-call" href={phoneTarget}><span aria-hidden="true">☎</span> Appeler · {site.contact.phoneDisplay}</a>
+</Layout>
