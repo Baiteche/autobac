@@ -1,6 +1,6 @@
 # Déployer AutoBac66 sur Cloudflare
 
-Le site est **100 % statique** : `npm run build` génère le dossier `dist` (3 pages — accueil, confirmation `/thanks`, 404 — 72 fichiers, 3,5 Mo, plus gros fichier 363 kB). Aucun serveur, aucune base de données à gérer.
+Le site est **100 % statique** : `npm run build` génère le dossier `dist` (2 pages — accueil et 404 — plus `robots.txt` et `sitemap.xml`). Aucun serveur, aucune base de données à gérer.
 
 ---
 
@@ -101,7 +101,6 @@ $env:SITE_URL="https://autobac66.pages.dev"; npm run build; npm run preview
 - [ ] `https://pneus-occasion-perpignan.fr/sitemap.xml` → `<loc>https://pneus-occasion-perpignan.fr/</loc>`
 - [ ] Page en ligne → « Afficher le code source » → `<link rel="canonical" href="https://pneus-occasion-perpignan.fr/">` (et non `.pages.dev`)
 - [ ] `https://pneus-occasion-perpignan.fr/page-inexistante` → page 404 « Cette page a pris une crevaison »
-- [ ] `https://pneus-occasion-perpignan.fr/thanks` → accessible mais bien en `noindex` (`<meta name="robots" content="noindex">`)
 - [ ] `www.pneus-occasion-perpignan.fr` redirige bien vers l'apex (redirect rule) et le cadenas SSL s'affiche
 - [ ] **Formulaire** : envoie une vraie demande de test (tu la recevras) — le récapitulatif s'affiche dans la page, l'email arrive via Formspree. Vérifie aussi l'adresse de réception dans ton compte Formspree (`formspree.io/f/mqpagwbn`).
 - [ ] **Google Search Console** : ajoute la propriété (type « Préfixe d'URL »), valide, puis soumets `sitemap.xml`
@@ -130,7 +129,7 @@ $env:SITE_URL="https://autobac66.pages.dev"; npm run build; npm run preview
 | `public/_headers` | Cache long (1 an) sur `/_astro/*` et `/fonts/*` + en-têtes de sécurité |
 | `.node-version` | Node 22 (l'image de build Cloudflare utilise Node 22.16 par défaut) |
 | `package.json` | Script `npm run deploy` (build + upload Wrangler) |
-| `src/pages/robots.txt.ts` | `robots.txt` généré au build, `Disallow: /thanks` inclus |
+| `src/pages/robots.txt.ts` | `robots.txt` généré au build |
 | `src/pages/sitemap.xml.ts` | `sitemap.xml` généré au build avec l'URL réelle |
 | `src/pages/404.astro` | Page 404 de marque (reprise par Cloudflare) |
 | `.gitignore` | `dist/` et `node_modules/` exclus du dépôt (Cloudflare reconstruit) |

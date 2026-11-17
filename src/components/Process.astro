@@ -1,0 +1,34 @@
+---
+// Section « parcours » : les 5 étapes de la prise en charge, en bande statique.
+// Remplace l'ancienne animation GSAP (ScrollTrigger + SVG + pneu lime) qui
+// coûtait 113 kB de JavaScript et ~1 000 px de défilement avant les services.
+const roadSteps = [
+  { number: '01', kicker: 'Le choix', title: 'Pneus d’occasion', text: 'Une option économique, à explorer selon votre dimension.' },
+  { number: '02', kicker: 'La gamme', title: 'Pneus neufs', text: 'Des solutions à comparer selon votre conduite et votre budget.' },
+  { number: '03', kicker: 'L’atelier', title: 'Montage', text: 'Sur place, avec ou sans rendez-vous du lundi au samedi.' },
+  { number: '04', kicker: 'La précision', title: 'Équilibrage', text: 'Pour retrouver une sensation de conduite plus régulière.' },
+  { number: '05', kicker: 'Le garage', title: 'Mécanique légère', text: 'Interventions selon le véhicule : demandez à l’atelier.' }
+];
+---
+
+<section class="process-section" id="parcours" aria-labelledby="road-title">
+  <div class="container">
+    <div class="section-heading split-heading process-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-dot"></span> La route AutoBac66</p>
+        <h2 id="road-title">Un pneu.<br /><em>Un parcours.</em></h2>
+      </div>
+      <p>Cinq étapes, de la recherche de la bonne dimension jusqu’au passage à l’atelier.</p>
+    </div>
+    <ol class="process-list">
+      {roadSteps.map((step) => (
+        <li class="process-step">
+          <span class="process-number" aria-hidden="true">{step.number}</span>
+          <p class="process-kicker">{step.kicker}</p>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

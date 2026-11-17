@@ -3,51 +3,28 @@ import site from '../data/site';
 
 const phoneTarget = site.contact.phoneHref || '#contact';
 const mapTarget = site.address.mapsUrl;
-const thanksUrl = new URL('thanks/', Astro.site).href;
+// Sans JavaScript, Formspree renvoie vers cette URL : on revient sur le
+// formulaire (la page /thanks/ n'existe plus, elle produisait un 404).
+const returnUrl = new URL('/#devis', Astro.site).href;
 ---
 
 <section class="finder-section" id="devis" aria-labelledby="finder-title">
   <div class="container finder-layout">
-    <div class="finder-intro">
+    <div class="finder-head">
       <p class="eyebrow"><span class="eyebrow-dot"></span> Vérification immédiate à Perpignan</p>
-      <h2 id="finder-title">Vos pneus en stock<br /><em>au meilleur prix ?</em></h2>
+      <h2 id="finder-title">Trouvez vos pneus<br /><em>et votre tarif.</em></h2>
       <p>Indiquez vos dimensions : nous vérifions directement notre stock (<strong>occasions contrôlées</strong> &amp; <strong>pneus neufs</strong>) et nous vous confirmons le prix et la disponibilité.</p>
-      
-      <!-- Les 3 options de contact direct -->
-      <div class="finder-alternatives" aria-label="Autres moyens de contact rapide">
-        <div class="finder-alt-badge">3 façons d’obtenir votre tarif :</div>
-        <div class="finder-alt-grid">
-          <a class="finder-alt-item finder-alt-call" href={phoneTarget}>
-            <span class="finder-alt-icon" aria-hidden="true">📞</span>
-            <div>
-              <strong>Appeler l'atelier</strong>
-              <span>Appel direct · {site.contact.hours}</span>
-            </div>
-            <span class="button-arrow" aria-hidden="true">↗</span>
-          </a>
-          <a class="finder-alt-item finder-alt-gps" href={mapTarget} target="_blank" rel="noreferrer">
-            <span class="finder-alt-icon" aria-hidden="true">📍</span>
-            <div>
-              <strong>Venir sans RDV</strong>
-              <span>{site.contact.walkIn} · {site.contact.hours}</span>
-            </div>
-            <span class="button-arrow" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
-
       <div class="finder-note"><span aria-hidden="true">↳</span> Exemple relevé sur votre flanc de pneu : <strong>205 / 55 / R16</strong></div>
     </div>
     <div class="finder-card">
       <div class="finder-card-head">
-        <span>VÉRIFICATION DE STOCK &amp; PRIX</span>
+          <span>RECHERCHE DE PNEUS &amp; DEMANDE DE PRIX</span>
         <span class="finder-status"><i></i> Réponse rapide 66</span>
       </div>
 
       <form data-tyre-form action={site.leadCapture.endpoint} method="POST">
         <!-- Champs Formspree : utiles si le JavaScript est désactivé (l'envoi normal reste en AJAX). -->
-        <input type="hidden" name="_subject" value={`Nouvelle demande pneus — ${site.displayName}`} />
-        <input type="hidden" name="_next" value={thanksUrl} />
+        <input type="hidden" name="_next" value={returnUrl} />
         <!-- Dimensions -->
         <div class="size-fields">
           <label><span>Largeur</span><input name="width" inputmode="numeric" pattern="[0-9]{3}" maxlength="3" placeholder="205" required /></label>
@@ -98,7 +75,7 @@ const thanksUrl = new URL('thanks/', Astro.site).href;
         <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
         
         <button class="button button-primary finder-submit" type="submit">
-          <span>Vérifier le stock &amp; recevoir le prix</span>
+          <span>Vérifier mon prix</span>
           <span class="button-arrow" aria-hidden="true">↗</span>
         </button>
 
@@ -131,11 +108,37 @@ const thanksUrl = new URL('thanks/', Astro.site).href;
       </p>
       <p class="finder-footnote">AutoBac66 · {site.address.street}, {site.city} · {site.contact.hours} · {site.contact.phoneDisplay}</p>
     </div>
+
+    <!-- Moyens de contact directs. Ils suivent le formulaire dans le DOM : sur
+         mobile, l'ordre de tabulation reste celui de l'écran. -->
+    <div class="finder-side">
+      <div class="finder-alternatives" aria-label="Autres moyens de contact rapide">
+        <div class="finder-alt-badge">Autres moyens de nous joindre</div>
+        <div class="finder-alt-grid">
+          <a class="finder-alt-item finder-alt-call" href={phoneTarget}>
+            <span class="finder-alt-icon" aria-hidden="true">📞</span>
+            <div>
+              <strong>Appeler l'atelier</strong>
+              <span>Appel direct · {site.contact.hours}</span>
+            </div>
+            <span class="button-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="finder-alt-item finder-alt-gps" href={mapTarget} target="_blank" rel="noreferrer">
+            <span class="finder-alt-icon" aria-hidden="true">📍</span>
+            <div>
+              <strong>Venir sans RDV</strong>
+              <span>{site.contact.walkIn} · {site.contact.hours}</span>
+            </div>
+            <span class="button-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <script>
-  const form = document.querySelector('[data-tyre-form]');
+  const form = document.querySelector<HTMLFormElement>('[data-tyre-form]');
   const result = document.querySelector('[data-finder-result]');
   const message = document.querySelector('[data-message]');
   const callLink = document.querySelector('[data-result-call]');
@@ -145,6 +148,7 @@ const thanksUrl = new URL('thanks/', Astro.site).href;
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (!form) return;
     const data = new FormData(form);
     const width = String(data.get('width') || '').trim();
     const height = String(data.get('height') || '').trim();

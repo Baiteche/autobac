@@ -21,7 +21,7 @@ const servicePhotos: Record<string, { image: ImageMetadata; alt: string }> = {
 <section class="services-section section-light" id="services" aria-labelledby="services-title">
   <div class="container">
     <div class="section-heading split-heading">
-      <div><p class="eyebrow"><span class="eyebrow-dot"></span> L’offre AutoBac66</p><h2 id="services-title">Le pneu est<br /><em>le point de départ.</em></h2></div>
+      <div><p class="eyebrow"><span class="eyebrow-dot"></span> L’offre AutoBac66</p><h2 id="services-title">Nos services pneumatiques à Perpignan</h2></div>
       <p>Une offre lisible pour vous aider à avancer : trouver la bonne dimension, choisir entre neuf et occasion, puis confier le montage à l’atelier.</p>
     </div>
     <div class="service-grid">
@@ -39,6 +39,7 @@ const servicePhotos: Record<string, { image: ImageMetadata; alt: string }> = {
           <p class="service-short">{service.short}</p>
           <p class="service-description">{service.description}</p>
           <ul>{service.bullets.map((bullet) => <li><span aria-hidden="true">+</span>{bullet}</li>)}</ul>
+          <a class="service-contact" href="#devis">Vérifier mon prix <span aria-hidden="true">↗</span></a>
           {servicePhotos[service.id] && (
             <figure class="service-photo">
               <Image

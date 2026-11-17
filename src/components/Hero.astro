@@ -5,6 +5,12 @@ import heroPhoto from '../assets/images/hero-atelier-pneu.jpg';
 
 const phoneTarget = site.contact.phoneHref || '#contact';
 const mapTarget = site.address.mapsUrl;
+
+// Preuve sociale calculée sur les avis réellement publiés dans site.reviews.
+const reviewCount = site.reviews.length;
+const reviewAverage = reviewCount
+  ? (site.reviews.reduce((total, review) => total + review.rating, 0) / reviewCount).toFixed(1).replace('.', ',')
+  : null;
 ---
 
 <section class="hero" id="top" aria-labelledby="hero-title">
@@ -13,30 +19,27 @@ const mapTarget = site.address.mapsUrl;
   <div class="container hero-layout">
     <div class="hero-copy">
       <p class="eyebrow hero-eyebrow"><span class="eyebrow-dot"></span> Garage pneus · {site.city}</p>
-      <h1 id="hero-title">Pneus d’occasion à <em>Perpignan</em><span class="h1-subline">Vente, montage &amp; équilibrage</span></h1>
-      <p class="hero-intro">Vous cherchez des pneus d’occasion à Perpignan ? Donnez-nous votre dimension : nous vous orientons vers la bonne solution, au bon prix.</p>
+      <h1 id="hero-title">Garage pneus à Perpignan <em>– Pneus neufs et occasion</em></h1>
+      <p class="hero-intro">Vente de pneus neufs et d’occasion, montage, équilibrage et réparation de crevaison à Perpignan. Contactez AutoBac66 pour connaître nos disponibilités et obtenir votre tarif.</p>
       <div class="hero-actions">
-        <a class="button button-primary" href={phoneTarget}>
-          <span>Appeler maintenant</span><span class="button-arrow" aria-hidden="true">↗</span>
+        <a class="button button-primary" href="#devis">
+          <span>Vérifier mon prix</span><span class="button-arrow" aria-hidden="true">↗</span>
         </a>
-        <a class="button button-ghost" href="#devis">Demander un devis <span aria-hidden="true">↓</span></a>
       </div>
-      <a class="hero-phone" href={phoneTarget} aria-label={`Appeler AutoBac66 au ${site.contact.phoneDisplay}`}>
+      <p class="hero-promo">
+        <span class="hero-promo-label">{site.promotion.label}</span>
+        <span>{site.promotion.title} · {site.promotion.detail.toLowerCase()} <strong>{site.promotion.price}</strong> <del>{site.promotion.oldPrice}</del></span>
+      </p>
+      <a class="hero-phone" href={phoneTarget}>
         <span class="hero-phone-icon" aria-hidden="true">☎</span>
         <span class="hero-phone-copy"><strong>{site.contact.phoneDisplay}</strong><small>Appel direct à l’atelier · {site.contact.walkIn}</small></span>
         <span class="button-arrow" aria-hidden="true">↗</span>
       </a>
-      <div class="trust-row" aria-label="Informations de confiance">
-        <span class="trust-chip"><i aria-hidden="true"></i> {site.contact.walkIn}</span>
-        <span class="trust-chip"><i aria-hidden="true"></i> {site.contact.hours}</span>
-        <span class="trust-chip"><i aria-hidden="true"></i> Neuf &amp; occasion</span>
-        <span class="trust-chip"><i aria-hidden="true"></i> Montage sur place</span>
-      </div>
-      <div class="hero-offer">
-        <span class="hero-offer-label">{site.promotion.label}</span>
-        <div><strong>{site.promotion.title}</strong><span>{site.promotion.detail} <b>{site.promotion.price}</b> <del>au lieu de {site.promotion.oldPrice}</del></span><small class="hero-offer-note">{site.promotion.conditions}</small></div>
-        <a href="#devis">En profiter <span aria-hidden="true">↗</span></a>
-      </div>
+      <p class="hero-meta">
+        <span>{site.contact.hours}</span>
+        <span>Neuf &amp; occasion</span>
+        {reviewAverage && <a href="#avis">{reviewAverage}/5 · {reviewCount} avis Google</a>}
+      </p>
     </div>
     <div class="hero-art">
       <figure class="hero-photo">

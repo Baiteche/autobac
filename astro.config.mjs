@@ -11,5 +11,10 @@ export default defineConfig({
   compressHTML: true,
   build: {
     format: 'directory'
-  }
+  },
+  resolve: {
+    alias: {
+      '@': './src',
+    },
+  },
 });

@@ -6,11 +6,13 @@ export type Service = {
   description: string;
   bullets: string[];
   tone: 'acid' | 'soft' | 'outline';
+  showQuote?: boolean;
 };
 
 export type Review = {
   name: string;
-  city: string;
+  /** Date relative telle qu'affichée par Google (« il y a 3 semaines »). */
+  date: string;
   rating: number;
   text: string;
 };
@@ -59,9 +61,9 @@ const site = {
     endpoint: 'https://formspree.io/f/mqpagwbn'
   },
   seo: {
-    title: 'Pneus d’occasion à Perpignan | Neufs, montage & équilibrage | AutoBac66',
+    title: 'Garage Pneus Perpignan | Neufs, Occasion & Montage – AutoBac66',
     description:
-      'Vous cherchez des pneus d’occasion à Perpignan ? AutoBac66 propose pneus neufs et occasion, montage, équilibrage et devis au 44 boulevard Frédéric Mistral.',
+      'Besoin de pneus à Perpignan ? AutoBac66 propose des pneus neufs et d’occasion, le montage, l’équilibrage et la réparation de crevaison. Demandez votre tarif !',
     keywords: [
       'pneus pas chers Perpignan',
       'pneus d’occasion Perpignan',
@@ -126,47 +128,51 @@ const site = {
     ] satisfies GalleryPhoto[]
   },
   colors: {
-    accent: '#d5ff3f',
-    dark: '#101214',
-    paper: '#f4f1e8'
+    accent: '#D71920',
+    dark: '#090A0C',
+    paper: '#F2F2F0'
   },
   coverage: ['Perpignan', 'Cabestany', 'Saint-Estève', 'Rivesaltes', 'Bompas', 'Pyrénées-Orientales'],
   services: [
     {
       id: 'occasion',
       label: '01 / Occasion',
-      title: 'Pneus d’occasion',
+      title: 'Pneus d’occasion à Perpignan',
       short: 'Le bon pneu, au juste prix.',
       description: 'Une solution économique pour retrouver de l’adhérence sans perdre de vue votre budget.',
       bullets: ['Prix attractifs', 'Pneus contrôlés', 'Recherche par dimension', 'Parallélisme 50 € dès 2 pneus'],
-      tone: 'acid'
+      tone: 'acid',
+      showQuote: true
     },
     {
       id: 'neufs',
       label: '02 / Neuf',
-      title: 'Pneus neufs',
+      title: 'Pneus neufs à Perpignan',
       short: 'Choisir sereinement, selon votre usage.',
       description: 'Des gammes et marques à identifier avec vous selon la dimension recherchée et le budget.',
       bullets: ['Différentes gammes', 'Marques selon disponibilité', 'Conseil dimension & budget'],
-      tone: 'soft'
+      tone: 'soft',
+      showQuote: true
     },
     {
       id: 'montage',
       label: '03 / Atelier',
-      title: 'Montage & équilibrage',
+      title: 'Montage et équilibrage à Perpignan',
       short: 'Un service essentiel, réalisé sur place.',
       description: 'Le montage et l’équilibrage accompagnent votre achat pour repartir avec un véhicule prêt à rouler.',
       bullets: ['Montage de pneus', 'Équilibrage', 'Avec ou sans rendez-vous'],
-      tone: 'outline'
+      tone: 'outline',
+      showQuote: true
     },
     {
       id: 'crevaison',
       label: '04 / Dépannage',
-      title: 'Réparation de crevaison',
+      title: 'Réparation de crevaison à Perpignan',
       short: 'Faire le point avant de remplacer.',
       description: 'Une crevaison ? Faites contrôler le pneu afin d’identifier la solution adaptée à votre situation.',
       bullets: ['Contrôle du pneu', 'Solution selon l’état', 'Contact direct'],
-      tone: 'soft'
+      tone: 'soft',
+      showQuote: false
     },
     {
       id: 'mecanique',
@@ -175,46 +181,96 @@ const site = {
       short: 'Une activité à préciser avec l’équipe.',
       description: 'Selon le véhicule et le besoin, l’atelier vous indique directement ce qui peut être réalisé sur place.',
       bullets: ['Selon le véhicule', 'Renseignements par téléphone', 'Sur place au garage'],
-      tone: 'outline'
+      tone: 'outline', showQuote: true
     }
   ] satisfies Service[],
   benefits: [
-    { number: '01', title: 'Une recherche claire', text: 'On part de votre dimension, de votre usage et de votre budget.' },
-    { number: '02', title: 'Du choix, sans jargon', text: 'Neuf ou occasion : l’offre est présentée simplement pour décider sereinement.' },
-    { number: '03', title: 'Un contact direct', text: 'Une adresse physique à Perpignan et un parcours court pour demander un prix.' },
-    { number: '04', title: 'Le 66 en point de repère', text: 'AutoBac66 accompagne les automobilistes de Perpignan et des alentours.' }
+    { number: '01', title: 'Pneus neufs et d’occasion', text: 'Deux options pour rechercher les pneus qui correspondent à votre besoin.' },
+    { number: '02', title: 'Recherche selon votre dimension', text: 'Communiquez les dimensions inscrites sur le flanc de votre pneu.' },
+    { number: '03', title: 'Montage directement à l’atelier', text: 'Montage et équilibrage proposés au garage, à Perpignan.' },
+    { number: '04', title: 'Contact direct et demande de prix', text: 'Appelez l’équipe ou envoyez votre demande de disponibilité en ligne.' }
   ],
-  // AVIS PROVISOIRES (génériques, sans date ni source inventée).
-  // À remplacer par les avis réels des clients (Google, réseaux sociaux) dès réception.
-  // Ne pas ajouter de données structurées AggregateRating/Review avant d'avoir de vrais avis.
+  // Les avis authentiques ne sont pas encore renseignés : aucune carte ni note fictive n’est affichée.
+  // Avis Google publiés par les clients de l'atelier (relevés le 17/11/2026).
+  // Textes repris tels quels : seule la mention « … Plus » de l'interface Google a été retirée.
+  reviewsUrl:
+    'https://www.google.com/maps/search/?api=1&query=AutoBac66+44+boulevard+Fr%C3%A9d%C3%A9ric+Mistral+66000+Perpignan',
   reviews: [
     {
-      name: 'Julien',
-      city: 'Perpignan',
+      name: 'Billal Baiteche',
+      date: 'il y a une semaine',
       rating: 5,
-      text: 'La différence entre un pneu neuf et un pneu d’occasion m’a été expliquée simplement, avant que je choisisse. Devis clair, montage effectué sur place : je repars serein.'
+      text: 'Service rapide . Merci !'
     },
     {
-      name: 'Sandrine',
-      city: 'Cabestany',
+      name: 'Broyer Ronan',
+      date: 'il y a 3 semaines',
       rating: 5,
-      text: 'Passée sans rendez-vous, on s’est occupé de ma roue rapidement et le prix annoncé a été respecté. Accueil sympa, on explique sans jargon.'
+      text: 'Franchement au top , service rapide , super accueil, pris en charge direct , nickel'
     },
     {
-      name: 'Karim',
-      city: 'Saint-Estève',
-      rating: 4,
-      text: 'Bon rapport qualité/prix sur des pneus d’occasion. L’atelier était bien occupé quand je suis passé, mais le travail est soigné et les dimensions vérifiées avant.'
+      name: 'Joachim Carrie Santiago',
+      date: 'il y a 4 semaines',
+      rating: 5,
+      text: 'Franchement nickel au top Nordine très pro on sent l’expérience'
+    },
+    {
+      name: 'Nassim Bagus',
+      date: 'il y a 3 mois',
+      rating: 5,
+      text: 'Garage au top, équipe accueillante et très pro. J’ai été pris en charge rapidement et on m’a expliqué clairement ce qui devait être fait sur la voiture. Travail propre, prix annoncés à l’avance et aucun souci après l’intervention. Je recommande AutoBac66.'
+    },
+    {
+      name: 'Angie Heripret',
+      date: 'il y a un mois',
+      rating: 5,
+      text: 'Service impeccable, rapide et professionnel ! Je recommande ✅'
+    },
+    {
+      name: 'Jeus',
+      date: 'il y a 3 semaines',
+      rating: 5,
+      text: 'Les pros du garage, super boulot ! 🔥'
+    },
+    {
+      name: 'Partha Mondal',
+      date: 'il y a 4 semaines',
+      rating: 5,
+      text: 'Très bon travail'
     }
-  ] satisfies Review[],
+  ] as Review[],
   faq: [
     {
-      question: 'Où trouver des pneus pas chers à Perpignan ?',
+      question: 'Où acheter des pneus à Perpignan ?',
       answer: 'AutoBac66 est situé au 44 boulevard Frédéric Mistral à Perpignan. Vous pouvez demander une proposition en indiquant votre dimension et votre préférence entre pneus neufs et d’occasion.'
     },
     {
       question: 'Peut-on acheter des pneus d’occasion à Perpignan ?',
       answer: 'Oui, les pneus d’occasion font partie de l’offre présentée par AutoBac66. La disponibilité dépend de la dimension recherchée : utilisez le module de demande ou contactez directement le garage.'
+    },
+    {
+      question: 'Combien coûte le montage de pneus ?',
+      answer: 'Le tarif dépend notamment de la dimension et du nombre de pneus. Contactez AutoBac66 avec ces informations pour connaître le prix avant de venir.'
+    },
+    {
+      question: 'Peut-on venir avec ses propres pneus ?',
+      answer: 'Appelez l’atelier avant de vous déplacer pour confirmer les conditions de montage de pneus achetés ailleurs et le tarif correspondant.'
+    },
+    {
+      question: 'Comment connaître la dimension de ses pneus ?',
+      answer: 'La dimension est inscrite sur le flanc du pneu, par exemple 205/55 R16. Vous pouvez la saisir dans le formulaire de recherche ou la communiquer par téléphone.'
+    },
+    {
+      question: 'Peut-on faire réparer un pneu crevé ?',
+      answer: 'L’atelier peut contrôler le pneu. La possibilité d’une réparation dépend de l’emplacement et de l’état du dommage ; appelez-nous pour faire le point.'
+    },
+    {
+      question: 'Faut-il prendre rendez-vous pour monter des pneus ?',
+      answer: 'AutoBac66 accueille avec ou sans rendez-vous, du lundi au samedi. Un appel avant votre venue permet de vérifier la disponibilité et l’attente à l’atelier.'
+    },
+    {
+      question: 'Quels types de pneus sont disponibles ?',
+      answer: 'AutoBac66 recherche des pneus neufs et d’occasion selon votre dimension. Le choix dépend du stock et se confirme au moment de votre demande.'
     },
     {
       question: 'Les pneus d’occasion sont-ils contrôlés ?',
@@ -252,6 +308,7 @@ export const schemaData = {
   '@type': 'AutoRepair',
   name: site.displayName,
   telephone: site.contact.phoneE164,
+  description: 'Vente de pneus neufs et d’occasion, montage, équilibrage et réparation de crevaison à Perpignan.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.street,
@@ -273,7 +330,19 @@ export const schemaData = {
       closes: '19:00'
     }
   ],
-  areaServed: site.coverage.map((area) => ({ '@type': 'Place', name: area }))
+  areaServed: site.coverage.map((area) => ({ '@type': 'Place', name: area })),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Services AutoBac66 à Perpignan',
+    itemListElement: site.services.map((service) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: service.title,
+        description: service.description
+      }
+    }))
+  }
 };
 
 export default site;
